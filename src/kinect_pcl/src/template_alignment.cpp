@@ -15,14 +15,15 @@
 class FeatureCloud{
 	public:
 		typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
-		typedef pc::PointCloud<pcl::Normal> SurfaceNormals;
-		typedef pcl::PointCloud<pcl;::FPHSSignature33> LocalFetaures;
+		typedef pcl::PointCloud<pcl::Normal> SurfaceNormals;
+		typedef pcl::PointCloud<pcl::FPFHSignature33> LocalFetaures;
 		typedef pcl::search::KdTree<pcl::PointXYZ> SearchMethod;
 
 		FeatureCloud():
 			search_method_xyz (new SearchMethod), normal_radius_ (0.02f), feature_radius_ (0.02f)
 			{}
 			
+		~FeatureCloud () {}
 			
 		void setInputCloud(PointCloud::Ptr xyz){
 			xyz_ = xyz;
@@ -53,7 +54,7 @@ class FeatureCloud{
 			normals_ = SurfaceNormals::Ptr (new SurfaceNormals);
 			pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> norm_est;
 			norm_est.setInputCloud(xyz_);
-			norm_est.searchMethod(search_method_xyz_);
+			norm_est.setSearchMethod(search_method_xyz_);
 			norm_est.setRadiusSearch (normal_radius_);
 			norm_est.compute (*normals_);
 		}
