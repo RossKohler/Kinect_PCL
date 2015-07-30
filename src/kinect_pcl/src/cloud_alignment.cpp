@@ -9,6 +9,9 @@
 int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in){
 	std::cout << "Performing Sample Consensus Initial Alignment.. ";
 	FeatureCloud targetCloud;
+	targetCloud.setInputCloud(prev_cloud);
+
+
 	
 	
 }
