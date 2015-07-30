@@ -104,7 +104,7 @@ include_directories(include
 # )
 
 ## Declare a cpp executable
-add_executable(driver src/driver.cpp src/cloud_alignment.cpp)
+add_executable(driver src/driver.cpp src/cloud_alignment.cpp src/template_alignment.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

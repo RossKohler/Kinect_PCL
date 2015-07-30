@@ -5,10 +5,10 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/registration/icp.h>
-#include <pcl_ros/filters/passthrough.h>
-#include <pcl/filters/voxel_grid.h>
 
 int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in){
+	std::cout << "Performing Sample Consensus Initial Alignment.. ";
+	FeatureCloud targetCloud;
 	
 	
 }

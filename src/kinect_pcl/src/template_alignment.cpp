@@ -11,6 +11,7 @@
 #include <pcl/features/normal_3d.h>
 #include <pcl/features/fpfh.h>
 #include <pcl/registration/ia_ransac.h>
+#include <kinect_pcl/template_alignment.h>
 
 class FeatureCloud{
 	public:
@@ -86,13 +87,6 @@ class TemplateAlignment
 {
 	
 	public:
-	
-		struct Result{
-				float fitness_score;
-				Eigen::Matrix4f final_transformation;
-				EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-		};
-		
 		TemplateAlignment() :
 			min_sample_distance_ (0.05f), max_correspondence_distance_ (0.01f*0.01f), nr_iterations_ (500)
 			{
@@ -115,7 +109,7 @@ class TemplateAlignment
 		}
 		
 		
-		void align (FeatureCloud &template_cloud, TemplateAlignment::Result &result){
+		void align (FeatureCloud &template_cloud, struct Result &result){
 			sac_ia_.setInputCloud (template_cloud.getPointCloud());
 			sac_ia_.setSourceFeatures (template_cloud.getLocalFeatures ());
 			pcl::PointCloud<pcl::PointXYZ> registration_output;
@@ -125,15 +119,15 @@ class TemplateAlignment
 			result.final_transformation = sac_ia_.getFinalTransformation();
 		}
 		
-		void alignAll (std::vector<TemplateAlignment::Result, Eigen::aligned_allocator<Result> > &results){
+		void alignAll (std::vector<struct Result, Eigen::aligned_allocator<Result> > &results){
 			results.resize(templates_.size());
 			for(size_t i = 0; i< templates_.size();++i){
 				align (templates_[i],results[i]);
 			}
 		}
 		
-		int findBestAlignment (TemplateAlignment::Result &result){
-				std::vector<Result, Eigen::aligned_allocator<Result> > results;
+		int findBestAlignment (struct Result &result){
+				std::vector<struct Result, Eigen::aligned_allocator<struct Result> > results;
 				alignAll (results);
 				float lowest_score = std::numeric_limits<float>::infinity();
 				int best_template = 0;
