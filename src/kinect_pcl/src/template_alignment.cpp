@@ -16,7 +16,7 @@ class FeatureCloud{
 	public:
 		typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 		typedef pcl::PointCloud<pcl::Normal> SurfaceNormals;
-		typedef pcl::PointCloud<pcl::FPFHSignature33> LocalFetaures;
+		typedef pcl::PointCloud<pcl::FPFHSignature33> LocalFeatures;
 		typedef pcl::search::KdTree<pcl::PointXYZ> SearchMethod;
 
 		FeatureCloud():
@@ -54,7 +54,7 @@ class FeatureCloud{
 			normals_ = SurfaceNormals::Ptr (new SurfaceNormals);
 			pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> norm_est;
 			norm_est.setInputCloud(xyz_);
-			norm_est.setSearchMethod(search_method_xyz_);
+			norm_est.setSearchMethod(search_method_xyz);
 			norm_est.setRadiusSearch (normal_radius_);
 			norm_est.compute (*normals_);
 		}
@@ -65,9 +65,9 @@ class FeatureCloud{
 			pcl::FPFHEstimation <pcl::PointXYZ, pcl::Normal, pcl::FPFHSignature33> fpfh_est;
 			fpfh_est.setInputCloud(xyz_);
 			fpfh_est.setInputNormals(normals_);
-			fpfh_est.setSearchMethod (search_method_xyz_);
+			fpfh_est.setSearchMethod (search_method_xyz);
 			fpfh_est.setRadiusSearch (feature_radius_);
-			fpfh_est.compute( *features);
+			fpfh_est.compute( *features_);
 
 		}
 	
@@ -98,7 +98,7 @@ class TemplateAlignment
 			{
 			sac_ia_.setMinSampleDistance(min_sample_distance_);
 			sac_ia_.setMaxCorrespondenceDistance (max_correspondence_distance_);
-			sac_ia_.serMaximumIterations (nr_iterations_);				
+			sac_ia_.setMaximumIterations (nr_iterations_);
 			}
 			
 		~TemplateAlignment () {}
@@ -106,7 +106,7 @@ class TemplateAlignment
 		void setTargetCloud (FeatureCloud &target_cloud){
 			target_ = target_cloud;
 			sac_ia_.setInputTarget (target_cloud.getPointCloud());
-			sac_ia.setTargetFeatures (target_cloud.getLocalFeatures());
+			sac_ia_.setTargetFeatures (target_cloud.getLocalFeatures());
 			
 		}
 		
@@ -116,12 +116,12 @@ class TemplateAlignment
 		
 		
 		void align (FeatureCloud &template_cloud, TemplateAlignment::Result &result){
-			sac_ia.setInputCloud (template_cloud.getPointCloud());
-			sac_ia.setSourceFeatures (template_cloud.getLocalFeatures ());
+			sac_ia_.setInputCloud (template_cloud.getPointCloud());
+			sac_ia_.setSourceFeatures (template_cloud.getLocalFeatures ());
 			pcl::PointCloud<pcl::PointXYZ> registration_output;
-			sac_ia_align (registration_output);
+			sac_ia_.align (registration_output);
 			
-			result.fitness_score = (float) sac_is_.getFintessScore (max_correspondence_distance_);
+			result.fitness_score = (float) sac_ia_.getFitnessScore (max_correspondence_distance_);
 			result.final_transformation = sac_ia_.getFinalTransformation();
 		}
 		
@@ -138,7 +138,7 @@ class TemplateAlignment
 				float lowest_score = std::numeric_limits<float>::infinity();
 				int best_template = 0;
 				for(size_t i = 0; i<results.size();++i){
-						const Results &r = results[i];
+						const Result &r = results[i];
 						if (r.fitness_score < lowest_score){
 								lowest_score = r.fitness_score;
 								best_template = (int) i;
@@ -159,7 +159,7 @@ class TemplateAlignment
 			std::vector<FeatureCloud> templates_;
 			FeatureCloud target_;
 			
-			pcl::SampleConsensusInitialAlignment<pcl::PointXYZ, pcl::PointXYZ, pcl::FPFHSSignature33> sac_ia_;
+			pcl::SampleConsensusInitialAlignment<pcl::PointXYZ, pcl::PointXYZ, pcl::FPFHSignature33> sac_ia_;
 			float min_sample_distance_;
 			float max_correspondence_distance_;
 			int nr_iterations_;
