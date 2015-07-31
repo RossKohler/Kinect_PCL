@@ -33,7 +33,7 @@ int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,pcl::PointCl
 	  printf ("\n");
 	  printf ("t = < %0.3f, %0.3f, %0.3f >\n", translation (0), translation (1), translation (2));
 
-	pcl::transformPointCloud(*templateCloud.getPointCloud(),*cloud_out,bestAlignment.final_transformation);
+	pcl::transformPointCloud(*templateCloud.getPointCloud(),*cloud_in,bestAlignment.final_transformation);
 
 	std::cout << "***Initial alignment complete***" << std::endl;
 

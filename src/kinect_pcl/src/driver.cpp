@@ -42,6 +42,7 @@ void callback(const sensor_msgs::PointCloud2ConstPtr& input)
 	firstPass = false;}
 	
   else{
+	  sac_ia_alignment(prev_cloud,cloud_in);
 	  if((icp_alignment(prev_cloud, cloud_in,cloud_out))== 0){
 		  *final_cloud += *cloud_out;
 		  *prev_cloud = *cloud_in; 
