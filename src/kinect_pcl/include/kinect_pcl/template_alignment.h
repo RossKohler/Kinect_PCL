@@ -1,11 +1,17 @@
 /*
  * template_alignment.h
+
  *
  *  Created on: 30 Jul 2015
  *      Author: ross
  */
+//#include <kinect_pcl/template_alignment.h>
 #include <vector>
 #include <Eigen/Core>
+#include <pcl/search/kdtree.h>
+#include <pcl/kdtree/kdtree_flann.h>
+
+
 
 #ifndef KINECT_PCL_INCLUDE_KINECT_PCL_TEMPLATE_ALIGNMENT_H_
 #define KINECT_PCL_INCLUDE_KINECT_PCL_TEMPLATE_ALIGNMENT_H_
@@ -30,10 +36,10 @@ class TemplateAlignment{
 
 public:
 	TemplateAlignment();
-	void setTargetCloud (FeatureCloud &target_cloud)
+	void setTargetCloud (FeatureCloud &target_cloud);
 	void addTemplateCloud (FeatureCloud &template_cloud);
 	void align (FeatureCloud &template_cloud, struct Result &result);
-	void alignAll (std::vector<struct Result, Eigen::aligned_allocator<Result> > &results)
+	void alignAll (std::vector<struct Result, Eigen::aligned_allocator<Result> > &results);
 	int findBestAlignment (Result &result);
 
 };
