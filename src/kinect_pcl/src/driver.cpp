@@ -23,7 +23,6 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in (new pcl::PointCloud<pcl::PointXYZ>
 
 bool firstPass = true;
 int iteration = 1;
-char command;
 
 void callback(const sensor_msgs::PointCloud2ConstPtr& input)
 {
@@ -66,12 +65,9 @@ int main (int argc, char** argv){
                     );             
 
   while(ros::ok()){
-	    std::cout << "Iteration " << iteration << std::endl;
-		command = getchar();
-		if(command == '\n'){
-		pub = nh.advertise<sensor_msgs::PointCloud2> ("output",1);}
-		else{
-			break;}
+	  	system("pause");
+	    std::cout << "Snapshot " << iteration << std::endl;
+		pub = nh.advertise<sensor_msgs::PointCloud2> ("output",1);
 			
 
   ros::spinOnce();
