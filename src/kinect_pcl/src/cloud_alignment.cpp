@@ -7,6 +7,7 @@
 #include <pcl/point_types.h>
 #include <pcl/registration/icp.h>
 #include <pcl/filters/voxel_grid.h>
+#include <Eigen/Core>
 
 int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,
 		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in) {
@@ -28,7 +29,7 @@ int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,
 	printf("Fitness Score: %f \n", bestAlignment.fitness_score);
 
 	Eigen::Matrix3f rotation = bestAlignment.final_transformation.block<3,3>(0, 0);
-	Eigen::Matrix3f translation =
+	Eigen::Vector3f translation =
 			bestAlignment.final_transformation.block<3,1>(0, 3);
 /*
 	printf("\n");
