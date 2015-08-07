@@ -31,7 +31,7 @@ int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,
 	Eigen::Matrix3f rotation = bestAlignment.final_transformation.block<3,3>(0, 0);
 	Eigen::Vector3f translation =
 			bestAlignment.final_transformation.block<3,1>(0, 3);
-/*
+
 	printf("\n");
 	printf("    | %6.3f %6.3f %6.3f | \n", rotation(0, 0), rotation(0, 1),
 			rotation(0, 2));
@@ -44,7 +44,7 @@ int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,
 			translation(2));
 
 	pcl::transformPointCloud(*templateCloud.getPointCloud(), *cloud_in,
-			bestAlignment.final_transformation);*/
+			bestAlignment.final_transformation);
 
 	std::cout << "***Initial alignment complete***" << std::endl;
 

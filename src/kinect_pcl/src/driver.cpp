@@ -32,7 +32,6 @@ void callback(const sensor_msgs::PointCloud2ConstPtr& input)
   pcl::removeNaNFromPointCloud(*cloud_in,*cloud_in,indices);
   downsample(cloud_in);
 
-
   if(firstPass){
 	*prev_cloud = *cloud_in;
 	*final_cloud = *cloud_in;
@@ -63,10 +62,10 @@ int main (int argc, char** argv){
                     2,
                     callback
                     );             
-
+  std::cout << "Press any key to take a snap shot.." << std::endl;
   while(ros::ok()){
-	  	system("pause");
-	    std::cout << "Snapshot " << iteration << std::endl;
+	    std::cin.ignore();
+	    std::cout << "Snapshot // " << iteration << std::endl;
 		pub = nh.advertise<sensor_msgs::PointCloud2> ("output",1);
 			
 

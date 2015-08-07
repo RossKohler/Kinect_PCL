@@ -58,7 +58,7 @@ void FeatureCloud::computeLocalFeatures() {
 
 void TemplateAlignment::setTargetCloud(FeatureCloud &target_cloud) {
 	target_ = target_cloud;
-	sac_ia_.setInputSource(target_cloud.getPointCloud());
+	sac_ia_.setInputTarget(target_cloud.getPointCloud());
 	sac_ia_.setTargetFeatures(target_cloud.getLocalFeatures());
 
 }
