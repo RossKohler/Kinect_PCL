@@ -8,6 +8,7 @@
 #include <pcl/registration/icp.h>
 #include <pcl/filters/voxel_grid.h>
 #include <Eigen/Core>
+#include <pcl/filters/statistical_outlier_removal.h>
 
 int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,
 		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in) {
@@ -18,13 +19,15 @@ int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,
 	targetCloud.setInputCloud(prev_cloud);
 	templateCloud.setInputCloud(cloud_in);
 
+
 	TemplateAlignment templateAlign;
 	templateAlign.addTemplateCloud(templateCloud);
 	templateAlign.setTargetCloud(targetCloud);
 
 	Result bestAlignment;
-
+	std::cout << "entering alignment" << std::endl;
 	templateAlign.findBestAlignment(bestAlignment);
+	std::cout << "exiting alignment" << std::endl;
 
 	printf("Fitness Score: %f \n", bestAlignment.fitness_score);
 
@@ -72,10 +75,25 @@ int icp_alignment(pcl::PointCloud<pcl::PointXYZ>::ConstPtr prev_cloud,
 	}
 }
 
-int downsample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in) {
+int downsample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in, float leafSize) {
+	std::cout << "*** Down sampling cloud***" << std::endl;
+	std::cout << "Input cloud size: " << cloud_in -> size() << std::endl;
 	pcl::VoxelGrid<pcl::PointXYZ> downsample_cloud;
 	downsample_cloud.setInputCloud(cloud_in);
-	downsample_cloud.setLeafSize(0.01f, 0.01f, 0.01f);
+	downsample_cloud.setLeafSize(leafSize, leafSize, leafSize);
 	downsample_cloud.filter(*cloud_in);
+	std::cout << "Output cloud size: " << cloud_in -> size() << std::endl;
 	return 0;
+}
+
+int removeOutliers(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in){
+	std::cout << "*** Removing outliers from cloud..***" << std::endl;
+	int numberPoints = cloud_in->size();
+	pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
+	sor.setInputCloud(cloud_in);
+	sor.setMeanK (50);
+	sor.setStddevMulThresh(1.0);
+	sor.filter(*cloud_in);
+	std::cout << "*** removeOutliers complete*** \nTotal outliers removed: " << numberPoints- cloud_in->size() << std::endl;
+
 }

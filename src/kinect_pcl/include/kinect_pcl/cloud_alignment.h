@@ -6,4 +6,6 @@ int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,pcl::PointCl
 
 int icp_alignment(pcl::PointCloud<pcl::PointXYZ>::ConstPtr prev_cloud, pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud_in, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out);
 
-int downsample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in);
+int downsample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in,float leafSize);
+
+int removeOutliers(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in);
