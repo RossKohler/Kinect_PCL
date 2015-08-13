@@ -9,6 +9,7 @@
 #include <pcl/filters/voxel_grid.h>
 #include <Eigen/Core>
 #include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl/registration/ndt.h>
 
 int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,
 		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in) {
@@ -73,6 +74,18 @@ int icp_alignment(pcl::PointCloud<pcl::PointXYZ>::ConstPtr prev_cloud,
 		PCL_ERROR("\nERROR: ICP has not converged. \n");
 		return 1;
 	}
+}
+
+int normalDistrbutionTransform(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,
+	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in,pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out){
+	pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ> ndt;
+	ndt.setTransformationEpsilon (0.01);
+	ndt.setStepSize (0.1);
+	ndt.setResolution (1.0);
+	ndt.setMaximumIterations (35);
+	ndt.setInputSource (cloud_in);
+	ndt.setInputTarget (prev_cloud);
+	ndt.align(*cloud_out);
 }
 
 int downsample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in, float leafSize) {

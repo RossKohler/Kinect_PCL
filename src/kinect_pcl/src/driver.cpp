@@ -54,6 +54,7 @@ void callback(const sensor_msgs::PointCloud2ConstPtr& input)
 }
 
 int main (int argc, char** argv){
+  setVerbosityLevel(pcl::console::L_DEBUG);
   ros::init (argc, argv, "kinect_pcl");
   ros::NodeHandle nh;
   ros::Rate loop_rate (1000);
