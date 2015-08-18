@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <kinect_pcl/cloud_alignment.h>
+#include <kinect_pcl/pointcloud_visualiser.h>
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl_conversions/pcl_conversions.h>
@@ -64,6 +65,9 @@ int main (int argc, char** argv){
                     1,
                     callback
                     );             
+
+  pointcloud_visualiser::Visualiser viewer
+
 
   while(ros::ok()){
 	  	std::cout << "Press any key to take a snap shot.." << std::endl;
