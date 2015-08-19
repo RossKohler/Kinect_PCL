@@ -22,9 +22,9 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud (new pcl::PointCloud<pcl::PointXY
 pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out (new pcl::PointCloud<pcl::PointXYZ>); 
 pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in (new pcl::PointCloud<pcl::PointXYZ>);
 
-RGB red (new RGB(255,0,0));
-RGB green(new RGB(0,255,0));
-RGB blue(new RGB(0,0,255));
+RGB red (255,0,0);
+RGB green(0,255,0);
+RGB blue(0,0,255);
 
 Visualiser pointCloudViewer;
 
@@ -45,7 +45,7 @@ void callback(const sensor_msgs::PointCloud2ConstPtr& input)
 	*final_cloud = *cloud_in;
 	pcl::toROSMsg(*prev_cloud,output);
 	pub.publish(output);
-	pointCloudViewer.updateAllPointClouds();
+	//pointCloudViewer.updateAllPointClouds();
 	firstPass = false;}
 	
   else{
@@ -55,7 +55,7 @@ void callback(const sensor_msgs::PointCloud2ConstPtr& input)
 		  *prev_cloud = *cloud_in; 
 		  pcl::toROSMsg(*final_cloud,output);
 		  pub.publish(output);
-		  pointCloudViewer.updateAllPointClouds();
+		  //pointCloudViewer.updateAllPointClouds();
 	 }}
 
 }

@@ -27,9 +27,9 @@ void Visualiser::addPointCloud(const std::string &id,RGB rgb,pcl::PointCloud<pcl
 	viewer->addPointCloud<pcl::PointXYZ> (cloud,color,id);
 	viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, id);
 
-	idVector.push_back(id);
+	/*idVector.push_back(id);
 	rgbVector.push_back(rgb);
-	cloudVector.push_back(cloud);
+	cloudVector.push_back(cloud);*/
 }
 
 void Visualiser::updatePointCloud(const std::string &id,RGB rgb,pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
@@ -37,7 +37,7 @@ void Visualiser::updatePointCloud(const std::string &id,RGB rgb,pcl::PointCloud<
 	viewer->updatePointCloud(cloud,color,id);
 }
 
-void Visualiser::updateAllPointClouds(){
+/*void Visualiser::updateAllPointClouds(){
 	for(int i = cloudVector.size(); i==0;i--){
 		pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> color(cloudVector.at(i), rgbVector.at(i).red,rgbVector.at(i).green,rgbVector.at(i).blue);
 		viewer->updatePointCloud(cloudVector.at(i),color,idVector.at(i));
@@ -45,10 +45,6 @@ void Visualiser::updateAllPointClouds(){
 
 
 
-}
-
-
-
-}
+}*/
 
 

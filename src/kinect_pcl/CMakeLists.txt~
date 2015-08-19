@@ -104,14 +104,14 @@ include_directories(include
 # )
 
 ## Declare a cpp executable
-add_executable(pointcloud_icp_match src/pointcloud_icp_match.cpp src/cloud_alignment.cpp)
+add_executable(driver src/driver.cpp src/cloud_alignment.cpp src/template_alignment.cpp src/pointcloud_visualiser.cpp);
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(kinect_pcl_node kinect_pcl_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(pointcloud_icp_match
+target_link_libraries(driver
    ${catkin_LIBRARIES}
    ${PCL_LIBRARIES} libvtkCommon.so libvtkFiltering.so 
  )
