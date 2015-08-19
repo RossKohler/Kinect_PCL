@@ -22,6 +22,12 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud (new pcl::PointCloud<pcl::PointXY
 pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out (new pcl::PointCloud<pcl::PointXYZ>); 
 pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in (new pcl::PointCloud<pcl::PointXYZ>);
 
+RGB red (new RGB(255,0,0));
+RGB green(new RGB(0,255,0));
+RGB blue(new RGB(0,0,255));
+
+Visualiser pointCloudViewer;
+
 bool firstPass = true;
 int iteration = 1;
 
@@ -39,17 +45,17 @@ void callback(const sensor_msgs::PointCloud2ConstPtr& input)
 	*final_cloud = *cloud_in;
 	pcl::toROSMsg(*prev_cloud,output);
 	pub.publish(output);
+	pointCloudViewer.updateAllPointClouds();
 	firstPass = false;}
 	
   else{
-	  //sac_ia_alignment(prev_cloud,cloud_in);
+	  sac_ia_alignment(prev_cloud,cloud_in);
 	  if((icp_alignment(prev_cloud, cloud_in,cloud_out))== 0){
 		  *final_cloud += *cloud_out;
 		  *prev_cloud = *cloud_in; 
 		  pcl::toROSMsg(*final_cloud,output);
 		  pub.publish(output);
-	
-
+		  pointCloudViewer.updateAllPointClouds();
 	 }}
 
 }
@@ -66,7 +72,10 @@ int main (int argc, char** argv){
                     callback
                     );             
 
-  pointcloud_visualiser::Visualiser viewer
+  pointCloudViewer.initViewer();
+  pointCloudViewer.addPointCloud("prev_cloud",red,prev_cloud);
+  pointCloudViewer.addPointCloud("cloud_in",green,cloud_in);
+  pointCloudViewer.addPointCloud("final_cloud",blue,final_cloud);
 
 
   while(ros::ok()){

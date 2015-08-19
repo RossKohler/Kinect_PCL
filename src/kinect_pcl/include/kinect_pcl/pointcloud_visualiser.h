@@ -12,6 +12,10 @@ class Visualiser{
 
 private:
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;
+	std::vector<RGB> rgbVector;
+	std::vector<const std::string> idVector;
+	std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> cloudVector;
+
 
 public:
 	Visualiser(){
@@ -19,9 +23,9 @@ public:
 	}
 
 	void initViewer();
-	void addPointCloud(const std::string &id,RGB rgb,pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud);
-	void updatePointCloud(const std::string &id,RGB rgb,pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud);
-
+	void addPointCloud(const std::string &id,RGB rgb,pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+	void updatePointCloud(const std::string &id,RGB rgb,pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+	void Visualiser::updateAllPointClouds();
 
 
 
