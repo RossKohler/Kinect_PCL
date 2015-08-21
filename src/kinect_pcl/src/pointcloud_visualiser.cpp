@@ -13,15 +13,6 @@
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/console/parse.h>
 
-
- void Visualiser::initViewer(){
-	viewer (new pcl::visualization::PCLVisualizer ("Registration Output"));
-	viewer->setBackgroundColor (0, 0, 0);
-	viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "Registration output");
-	viewer->addCoordinateSystem (1.0);
-	viewer->initCameraParameters ();
-}
-
 void Visualiser::addPointCloud(const std::string &id,RGB rgb,pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
 	pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> color(cloud, rgb.red,rgb.green, rgb.blue);
 	viewer->addPointCloud<pcl::PointXYZ> (cloud,color,id);

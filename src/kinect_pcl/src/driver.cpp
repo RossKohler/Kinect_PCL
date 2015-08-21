@@ -72,7 +72,6 @@ int main (int argc, char** argv){
                     callback
                     );             
 
-  pointCloudViewer.initViewer();
   pointCloudViewer.addPointCloud("prev_cloud",red,prev_cloud);
   pointCloudViewer.addPointCloud("cloud_in",green,cloud_in);
   pointCloudViewer.addPointCloud("final_cloud",blue,final_cloud);
