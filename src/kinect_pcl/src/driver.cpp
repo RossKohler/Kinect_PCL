@@ -45,7 +45,9 @@ void callback(const sensor_msgs::PointCloud2ConstPtr& input)
 	*final_cloud = *cloud_in;
 	pcl::toROSMsg(*prev_cloud,output);
 	pub.publish(output);
-	//pointCloudViewer.updateAllPointClouds();
+	pointCloudViewer.addPointCloud("prev_cloud",red,prev_cloud);
+	pointCloudViewer.addPointCloud("cloud_in",green,cloud_in);
+	pointCloudViewer.addPointCloud("final_cloud",blue,final_cloud);
 	firstPass = false;}
 	
   else{
@@ -55,7 +57,7 @@ void callback(const sensor_msgs::PointCloud2ConstPtr& input)
 		  *prev_cloud = *cloud_in; 
 		  pcl::toROSMsg(*final_cloud,output);
 		  pub.publish(output);
-		  //pointCloudViewer.updateAllPointClouds();
+		  pointCloudViewer.updateAllPointClouds();
 	 }}
 
 }
@@ -72,9 +74,7 @@ int main (int argc, char** argv){
                     callback
                     );             
 
-  pointCloudViewer.addPointCloud("prev_cloud",red,prev_cloud);
-  pointCloudViewer.addPointCloud("cloud_in",green,cloud_in);
-  pointCloudViewer.addPointCloud("final_cloud",blue,final_cloud);
+
 
 
   while(ros::ok()){
