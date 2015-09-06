@@ -12,12 +12,15 @@
 #include <pcl/registration/ndt.h>
 
 int sac_ia_alignment(pcl::PointCloud<pcl::PointXYZ>::Ptr prev_cloud,
-		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in) {
+	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_in) {
+
+	pcl::PointCloud<pcl::PointXYZ>::Ptr temp_cloud(new pcl::PointCloud<pcl::PointXYZ>(*prev_cloud));
+
 	std::cout << "Performing Sample Consensus Initial Alignment.. "
 			<< std::endl;
 	FeatureCloud targetCloud;
 	FeatureCloud templateCloud;
-	targetCloud.setInputCloud(prev_cloud);
+	targetCloud.setInputCloud(temp_cloud);
 	templateCloud.setInputCloud(cloud_in);
 
 
