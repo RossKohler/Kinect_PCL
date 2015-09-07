@@ -65,28 +65,28 @@ void visualize(){
 
 void callback(const sensor_msgs::PointCloud2ConstPtr& input)
 {
-  sensor_msgs::PointCloud2 output;
-  pcl::fromROSMsg(*input,*cloud_in);
-  std::vector<int> indices;
-  pcl::removeNaNFromPointCloud(*cloud_in,*cloud_in,indices);
-  downsample(cloud_in,0.06f);
-  removeOutliers(cloud_in);
+	  sensor_msgs::PointCloud2 output;
+	  pcl::fromROSMsg(*input,*cloud_in);
+	  std::vector<int> indices;
+	  pcl::removeNaNFromPointCloud(*cloud_in,*cloud_in,indices);
+	  downsample(cloud_in,0.06f);
+	  removeOutliers(cloud_in);
 
-  if(firstPass){
-	*prev_cloud = *cloud_in;
-	*final_cloud = *cloud_in;
-	pcl::toROSMsg(*prev_cloud,output);
-	pub.publish(output);
-	firstPass = false;}
-	
-  else{
-	  sac_ia_alignment(prev_cloud,cloud_in);
-	  if((icp_alignment(prev_cloud, cloud_in,cloud_out))== 0){
-		  *final_cloud += *cloud_out;
-		  *prev_cloud = *cloud_in; 
-		  pcl::toROSMsg(*final_cloud,output);
-		  pub.publish(output);
-	 }}
+	  if(firstPass){
+		*prev_cloud = *cloud_in;
+		*final_cloud = *cloud_in;
+		pcl::toROSMsg(*prev_cloud,output);
+		pub.publish(output);
+		firstPass = false;}
+
+	  else{
+		  sac_ia_alignment(prev_cloud,cloud_in);
+		  if((icp_alignment(prev_cloud, cloud_in,cloud_out))== 0){
+			  *final_cloud += *cloud_out;
+			  *prev_cloud = *cloud_in;
+			  pcl::toROSMsg(*final_cloud,output);
+			  pub.publish(output);
+		 }}
 
 }
 
@@ -104,9 +104,6 @@ int main (int argc, char** argv){
                     1,
                     callback
                     );             
-
-
-
 
   while(ros::ok()){
 	  	std::cout << "Press any key to take a snap shot.." << std::endl;
