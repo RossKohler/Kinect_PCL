@@ -104,8 +104,9 @@ include_directories(include
 # )
 
 ## Declare a cpp executable
-add_executable(driver src/driver.cpp src/cloud_alignment.cpp src/template_alignment.cpp src/pointcloud_visualiser.cpp)
+add_executable(driver src/driver.cpp src/cloud_alignment.cpp src/template_alignment.cpp)
 add_executable(pointcloud_to_file src/pointcloud_to_file.cpp)
+add_executable(scan_matcher src/scan_matcher src/cloud_alignment.cpp src/template_alignment.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -118,6 +119,11 @@ target_link_libraries(driver
  )
 
 target_link_libraries(pointcloud_to_file
+   ${catkin_LIBRARIES}
+   ${PCL_LIBRARIES} libvtkCommon.so libvtkFiltering.so 
+ )
+
+target_link_libraries(scan_matcher
    ${catkin_LIBRARIES}
    ${PCL_LIBRARIES} libvtkCommon.so libvtkFiltering.so 
  )
