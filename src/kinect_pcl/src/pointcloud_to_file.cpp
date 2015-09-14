@@ -28,7 +28,7 @@ void callback(const sensor_msgs::PointCloud2ConstPtr& input)
 	timestamp[0] = '\0';
 	now = time(NULL);
 	if (now != -1){
-		strftime(timestamp,sizeof(timestamp),"%d/%m/%d_%H:%M:%S",localtime(&now));
+		strftime(timestamp,sizeof(timestamp),"%d-%m-%d_%H:M:%S",localtime(&now));
 	}
 	std::string filename(timestamp);
 

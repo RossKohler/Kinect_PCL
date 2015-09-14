@@ -89,17 +89,29 @@ int main (int argc, char** argv){
 	setVerbosityLevel(pcl::console::L_DEBUG);
 
 
-	for(int i =1 ; i < argc ;i++){
-		pcl::PointCloud<pcl::PointXYZ>::Ptr sourceCloud (new pcl::PointCloud<pcl::PointXYZ>);
-		if(pcl::io::loadPCDFile<pcl::PointXYZ>(argv[i],*sourceCloud)!=0){
-			return -1;
-		}
-		cout << "Loaded file " << argv[i] << " (" << sourceCloud ->size() << " points)" << endl;
-		sourceClouds.push_back(sourceCloud);
 
-		for(int i = 0; i < sourceClouds.size() -1; i++){
-			scanMatch(sourceClouds[i]);
-		}
-		}
+	if(argc!=1){
+		for(int i =1 ; i < argc ;i++){
+			pcl::PointCloud<pcl::PointXYZ>::Ptr sourceCloud (new pcl::PointCloud<pcl::PointXYZ>);
+			if(pcl::io::loadPCDFile<pcl::PointXYZ>(argv[i],*sourceCloud)!=0){
+				std::cout << "Failed to load PCD file (" << argv[i] << ")!" << std::endl;
+				return -1;
+			}
+			std::cout << "Loaded file " << argv[i] << " (" << sourceCloud ->size() << " points)" << std::endl;
+			sourceClouds.push_back(sourceCloud);
+
+			for(int i = 0; i < sourceClouds.size() -1; i++){
+				boost::mutex::scoped_lock updateLock(updateMutex);
+				update = true;
+				scanMatch(sourceClouds[i]);
+				updateLock.unlock();
+			}
+			}}
+	else{
+		std::cout << "No input filenames given. Exiting!" << std::endl;
+	}
+
+
+
 
 }
