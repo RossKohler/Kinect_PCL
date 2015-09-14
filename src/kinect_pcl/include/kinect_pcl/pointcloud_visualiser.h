@@ -15,12 +15,7 @@ public:
 	int blue;
 	int green;
 
-	RGB(int red,int green, int blue){
-		this->red = red;
-		this->green = green;
-		this->blue = blue;
-
-	}
+	RGB(int red,int green, int blue);
 };
 
 
